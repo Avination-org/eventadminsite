@@ -5,9 +5,12 @@ import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { AuthService } from '../../utility/api';
+import { useTheme } from '@emotion/react';
+import { tokens } from '../../theme';
 
 function ChangePassword() {
-
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const navigate = useNavigate();
   const [err,setError] = useState('');
   const { state } = useLocation();
@@ -42,7 +45,8 @@ function ChangePassword() {
   })
   return (
     <>
-    <Container sx={{minHeight:'100%', display:'grid', placeItems:'center'}}>
+    <Container sx={{minHeight:'100%', display:'grid', placeItems:'center', "& .MuiPaper-root": {
+            background: `${colors.primary[400]} !important`}}}>
       <Paper sx={{ maxWidth:'500px', maxHeight:'min-content', p:'2rem'}}>
         <Stack alignItems={'center'}>
           <Typography

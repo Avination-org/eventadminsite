@@ -5,9 +5,10 @@ import * as yup from 'yup';
 import React, { useState } from 'react'
 import { DateTimePicker, LocalizationProvider, MobileDatePicker, MobileDateTimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { Add, UploadFile } from '@mui/icons-material';
+import { Add, DoDisturb, Stop, StopCircle, UploadFile } from '@mui/icons-material';
 import { HttpService } from '../../utility/api';
 import { useNavigate } from 'react-router-dom';
+import { MobileDateToUTC, onChangeMobileDateValue } from '../../utility/utility';
 
 function AddEvent() {
 
@@ -43,6 +44,8 @@ function AddEvent() {
           setError('File is required');
           return;
         }
+        console.log(values.event_start)
+        console.log(values.event_end)
         formData.append('name', values.name);
         formData.append('main_img', file);
         formData.append('description', values.description);
@@ -60,17 +63,19 @@ function AddEvent() {
       }
     }
   )
+
   return (
     <>
       <Container sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Paper elevation={2} sx={{ p: "2rem 3rem", }}>
-          <Typography variant='h2'>
+        <Paper elevation={2} sx={{ p: "2rem 3rem", mt:'2rem'}}>
+          
+          <Typography variant='h4' sx={{mb:'1rem'}}>
             Add Event
           </Typography>
           <Typography variant="body2">
             You can add event these evet will get save as Draft after adding you can search them in event page and edit them and manage their gallary.
           </Typography>
-          <form onSubmit={formik.handleSubmit} style={{ marginTop: '5rem' }}>
+          <form onSubmit={formik.handleSubmit} style={{ marginTop: '2rem' }}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
 
               <Grid container spacing={2}>
@@ -85,7 +90,7 @@ function AddEvent() {
                     onChange={formik.handleChange}
                     error={formik.touched.name && Boolean(formik.errors.name)}
                     helperText={formik.touched.name && formik.errors.name}
-
+                    required
                   />
                 </Grid>
                 <Grid item xs={3}>
@@ -94,10 +99,11 @@ function AddEvent() {
                     name="event_start"
                     id="event_start"
                     type="date"
-                    onChange={formik.handleChange}
+                    onChange={(e)=>{onChangeMobileDateValue(e,formik.handleChange,'event_start')}}
                     error={formik.touched.event_start && Boolean(formik.errors.event_start)}
                     helperText={formik.touched.event_start && formik.errors.event_start}
                     slotProps={{ textField: { fullWidth: true } }}
+                    required
                   />
                 </Grid>
                 <Grid item xs={3}>
@@ -107,10 +113,11 @@ function AddEvent() {
                     name="event_end"
                     id="event_end"
                     type="date"
-                    onChange={formik.handleChange}
+                    onChange={(e)=>{onChangeMobileDateValue(e,formik.handleChange,'event_end')}}
                     error={formik.touched.event_end && Boolean(formik.errors.event_end)}
                     helperText={formik.touched.event_end && formik.errors.event_end}
                     slotProps={{ textField: { fullWidth: true } }}
+                    required
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -125,6 +132,7 @@ function AddEvent() {
                     onChange={formik.handleChange}
                     error={formik.touched.description && Boolean(formik.errors.description)}
                     helperText={formik.touched.description && formik.errors.description}
+                    required
                   />
                 </Grid>
                 <Grid item xs={4}>
@@ -133,7 +141,7 @@ function AddEvent() {
                     name="registration_start"
                     id="registration_start"
                     type="date"
-                    onChange={formik.handleChange}
+                    onChange={(e)=>{onChangeMobileDateValue(e,formik.handleChange,'registration_start')}}
                     error={formik.touched.registration_start && Boolean(formik.errors.registration_start)}
                     helperText={formik.touched.registration_start && formik.errors.registration_start}
                     slotProps={{ textField: { fullWidth: true } }}
@@ -146,7 +154,7 @@ function AddEvent() {
                     name="registration_end"
                     id="registration_end"
                     type="date"
-                    onChange={formik.handleChange}
+                    onChange={(e)=>{onChangeMobileDateValue(e,formik.handleChange,'registration_end')}}
                     error={formik.touched.registration_end && Boolean(formik.errors.registration_end)}
                     helperText={formik.touched.registration_end && formik.errors.registration_end}
                     slotProps={{ textField: { fullWidth: true } }}
@@ -154,16 +162,20 @@ function AddEvent() {
                 </Grid>
                 <Grid item xs={5} >
                     <Button variant='outlined' LinkComponent='label'  htmlFor="main_img" startIcon={<UploadFile />} sx={{ marginRight: '1rem' }}>
-                  Main Image Upload
+                  Display Image Upload
                   <input type="file" multiple name="main_img" id="main_img" accept="image/png, image/gif, image/jpeg" onChange={(e)=> setFile(e.target.files[0])}/>
                     </Button>
                 </Grid>
               </Grid>
               <Typography variant='body2' color='red'>{err}</Typography>
-              <Box style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem'}}>
+              <Box style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem', gap:'2rem'}}>
                 <Button color="primary" variant="contained" type="submit">
                   <Add />
                   Add Event
+                </Button>
+                <Button color="error" variant="contained" onClick={()=>{navigate('/event')}}>
+                  <DoDisturb />
+                  Cancle
                 </Button>
               </Box>
             </LocalizationProvider>

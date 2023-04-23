@@ -7,7 +7,7 @@ function LinkBtn(props) {
     <Button {...props} 
     variant='contained'
     onClick={()=>{navigate(props.to, {state:props.data})}}
-    >{props.text}</Button>
+    >{props.icon? props.icon:<></>}{props.text}</Button>
   )
 }
 

@@ -1,16 +1,19 @@
 import { Button, Paper, Stack, TextField, Typography } from '@mui/material';
 import { Container } from '@mui/system';
 import { useFormik } from 'formik';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { AuthService } from '../../utility/api';
+import { useTheme } from '@emotion/react';
+import { tokens } from '../../theme';
+import LinkBtn from '../../components/Button/LinkBtn';
 
 function Login() {
-
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const navigate = useNavigate();
   const [err,setError] = useState('');
-
   const validationSchema = yup.object({
     email: yup
       .string("Enter your email")
@@ -21,6 +24,12 @@ function Login() {
       .min(8, 'Password must me 8 character')
       .required('Password is required')
   })
+
+  useEffect(()=>{
+    if(localStorage.getItem('token')){
+       navigate('/')
+    }
+  },[])
 
 
   const formik = useFormik({
@@ -43,8 +52,15 @@ function Login() {
   })
   return (
     <>
-    <Container sx={{minHeight:'100%', display:'grid', placeItems:'center'}}>
-      <Paper sx={{ maxWidth:'500px', maxHeight:'min-content', p:'2rem'}}>
+    <Container sx={{
+      "& .MuiPaper-root":{
+        background:`${colors.primary[400]} !important`
+      },
+      minHeight:'100%', display:'grid', placeItems:'center'}}>
+      <Paper 
+        
+      sx={{ maxWidth:'500px', maxHeight:'min-content', p:'2rem'
+      }}>
         <Stack alignItems={'center'}>
           <Typography
           padding={'3rem 0rem'}
@@ -73,15 +89,13 @@ function Login() {
               onChange={formik.handleChange}
               error={formik.touched.password && Boolean(formik.errors.password)}
               helperText={formik.touched.password && formik.errors.password}
-              sx={{mb:'2rem'}}
+              sx={{mb:'1rem'}}
             />
             <Typography variant='subtitle1' color='red'>{err}</Typography>
-            <div>
-              <Link to='/forget'>
-                <Typography variant='subtitle1'>Forget Password?</Typography>
-              </Link>
+            <div style={{textAlign:'end'}}>
+             <Link style={{textDecoration:'none', color:colors.blueAccent[500]}} to="/forget">Forget Password?</Link>
             </div>
-            <Button color="primary" variant="contained" fullWidth type="submit">
+            <Button variant="contained" sx={{mt:'2rem'}} fullWidth type="submit">
               Submit
             </Button>
           </form>

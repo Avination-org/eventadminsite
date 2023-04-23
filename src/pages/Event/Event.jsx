@@ -1,17 +1,20 @@
-import { Delete, Edit } from '@mui/icons-material';
-import { Box, Chip, IconButton, Paper, Stack, Typography } from '@mui/material'
+import { Add, Delete, Edit } from '@mui/icons-material';
+import { Box, Chip, IconButton, Paper, Stack, Typography, useTheme } from '@mui/material'
 import { Container } from '@mui/system'
-import { DataGrid } from '@mui/x-data-grid';
-import React, { useEffect, useState } from 'react'
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import LinkBtn from '../../components/Button/LinkBtn'
 import { HttpService } from '../../utility/api';
+import Header from '../../components/Header';
+import { ColorModeContext, tokens } from '../../theme';
 
 function Event() {
   const [events, setEvents] = useState([]);
   const [rows, setRows] = useState([]);
   const navigate = useNavigate();
-
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const columns = [
     {
       field: 'id',
@@ -69,7 +72,7 @@ function Event() {
       renderCell: (params) => {
         return (<>
           <IconButton onClick={() => navigate(`/edit/event/${params.value}`)}><Edit /></IconButton>
-          <IconButton onClick={() => {HttpService.removeEvent(params.value); window.reload()}}><Delete /></IconButton>
+          <IconButton onClick={() => { HttpService.removeEvent(params.value); window.reload() }}><Delete /></IconButton>
         </>);
       }
     }
@@ -88,7 +91,7 @@ function Event() {
         name: event.name,
         event_start: toLocalDT(event.event_date.from),
         event_end: toLocalDT(event.event_date.to),
-        carousel: event.meta_data && event.meta_data.in_carousel? true:false,
+        carousel: event.meta_data && event.meta_data.in_carousel ? true : false,
         status: !event.draft,
         create_date: toLocalDT(event.created_date),
 
@@ -102,16 +105,47 @@ function Event() {
   }, [])
 
   return (
-    <Container sx={{m:'1rem 12rem 1rem 15rem', height:'90vh',  minWidth:'80vw !important'}}>
-      <Paper elevation={3} sx={{ p: '1rem', height: "100%", width: '100%' }}>
-        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
-          <LinkBtn to="/addevent" text={"Add Event"} />
-        </div>
-        <Typography variant='h4'>Events</Typography>
-        <Box sx={{ height:'90%', mb:'5rem'}}>
+        <Box m="20px">
+          <Header
+            title="Events"
+            subtitle="List all event you can edit as see them"
+          />
+          <Box
+        m="40px 0 0 0"
+        height="75vh"
+        sx={{
+          "& .MuiDataGrid-root": {
+            border: "none",
+          },
+          "& .MuiDataGrid-cell": {
+            borderBottom: "none",
+          },
+          "& .name-column--cell": {
+            color: colors.greenAccent[300],
+          },
+          "& .MuiDataGrid-columnHeaders": {
+            backgroundColor: colors.blueAccent[700],
+            borderBottom: "none",
+          },
+          "& .MuiDataGrid-virtualScroller": {
+            backgroundColor: colors.primary[400],
+          },
+          "& .MuiDataGrid-footerContainer": {
+            borderTop: "none",
+            backgroundColor: colors.blueAccent[700],
+          },
+          "& .MuiCheckbox-root": {
+            color: `${colors.greenAccent[200]} !important`,
+          },
+          "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
+            color: `${colors.grey[100]} !important`,
+          },
+        }}
+      >
           <DataGrid
             columns={columns}
             rows={rows}
+            components={{ Toolbar: GridToolbar }}
             initialState={{
               pagination: {
                 paginationModel: {
@@ -121,10 +155,9 @@ function Event() {
             }}
             pageSizeOptions={[5]}
             disableRowSelectionOnClick
-          />
+          /></Box>
         </Box>
-      </Paper>
-    </Container>
+
   )
 }
 
