@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -20,6 +20,7 @@ import UserIcon from '../../assets/img/user.png'
 import EventIcon from '@mui/icons-material/EventOutlined';
 import AddPhotoAlternateOutlinedIcon  from "@mui/icons-material/AddPhotoAlternateOutlined";
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import { AuthService, HttpService} from '../../utility/api';
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -43,6 +44,24 @@ const Sidebar = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
+  const [profile, setPofile] = useState({
+    fname:"Super",
+    lname:"Admin",
+    profile:'document/files/640624b896b8107587864fda',
+    admin:true
+  })
+
+  const getPofile = async () =>{
+    HttpService.getPofile().then(async (res)=>{
+      const data = await res.data;
+      console.log(data)
+      setPofile(data.user);
+    })
+  }
+
+  useEffect(()=>{
+    getPofile();
+  },[])
 
   return (
     <Box
@@ -99,7 +118,8 @@ const Sidebar = () => {
                   alt="profile-user"
                   width="100px"
                   height="100px"
-                  src={UserIcon}
+                  loading="lazy"
+                  src={process.env.REACT_APP_API_URL+'/'+profile.profile}
                   style={{ cursor: "pointer", borderRadius: "50%" }}
                 />
               </Box>
@@ -110,10 +130,10 @@ const Sidebar = () => {
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  Ed Roh
+                  {profile.fname+' '+profile.lname}
                 </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
-                  VP Fancy Admin
+                  {profile.admin ? "Super Admin" : 'Admin'}
                 </Typography>
               </Box>
             </Box>

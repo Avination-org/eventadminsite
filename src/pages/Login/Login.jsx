@@ -25,12 +25,6 @@ function Login() {
       .required('Password is required')
   })
 
-  useEffect(()=>{
-    if(localStorage.getItem('token')){
-       navigate('/')
-    }
-  },[])
-
 
   const formik = useFormik({
     initialValues: {
@@ -43,7 +37,7 @@ function Login() {
       .then((response)=>{
         const data = response.data;
         localStorage.setItem('token',data.accessToken);
-        navigate('/');
+        window.location.replace("/")
       }).catch((res)=>{
         setError(res.response.data.message)
         return

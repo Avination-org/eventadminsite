@@ -1,17 +1,8 @@
 
-// export const  API = class {
-//     constructor(){
-//         URL = "http://127.0.0.1:5000";
-//     }
-//     this.login = async (data) => await login({URL, ...data})
-// }
-
 import axios from "axios";
 
 /*******************************NON AUTH REQUEST************************************/
 const AuthClient = axios.create({
-    // baseURL: baseURL
-    //baseURL: "https://api2.dhanva.icu/",
     baseURL: process.env.REACT_APP_API_URL,
     headers: {
         "Content-Type": "application/json",
@@ -30,8 +21,6 @@ const AuthService = {
 
 /***************************AUTHRIZED REQUEST**************************************/
 const httpClient = axios.create({
-    // baseURL: baseURL
-    //baseURL: "https://api2.dhanva.icu/",
     baseURL: process.env.REACT_APP_API_URL,
     headers: {
         "Content-Type": "application/json",
@@ -58,6 +47,7 @@ httpClient.interceptors.response.use((response) => Promise.resolve(response),
 const HttpService = {
     getAllEvents: ()=>httpClient.get('/get/allevents'),
     getEventById: (id)=> httpClient.get(`/get/event/${id}`),
+    getPofile: ()=> httpClient.get("/get/adminpofile"),
     addEvent: (data)=>httpClient.post('/add/event/admin', data ,{ headers:{
         'Content-Type':'multipart/form-data'
     }}),
@@ -66,7 +56,7 @@ const HttpService = {
     }}),
     editEvent: (data)=>httpClient.post('/edit/event', data),
     removeImage: (data)=> httpClient.post('/remove/img', data),
-    removeEvent: (id)=> httpClient.post(`/remove/event/${id}`)
+    removeEvent: (id)=> httpClient.post(`/remove/event/${id}`),
 }
 /******************************************************************************** */
 

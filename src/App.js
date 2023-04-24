@@ -1,8 +1,8 @@
 import React from "react";
 import { Route, Router, Routes } from "react-router-dom";
 import Dashboard from "./pages/Dashboard/Dashboard";
-// import AddEvent from "./pages/Event/AddEvent";
-// import EditEvent from "./pages/Event/EditEvent";
+import AddEvent from "./pages/Event/AddEvent";
+import EditEvent from "./pages/Event/EditEvent/EditEvent";
 // import Event from "./pages/Event/Event";
 // import Home from "./pages/Home/Home";
 import ChangePassword from "./pages/Login/ChangePassword";
@@ -38,6 +38,12 @@ function App() {
           <Route exact path="/forget" element={<ForgetPassword />} />
           <Route exact path="/otpverify" element={<VerifyOTP />} />
           <Route exact path="/changePassword" element={<ChangePassword />} />
+          <Route exact path="/addevent" element={AuthRoute(AddEvent)} />
+          <Route
+              exact
+              path="/edit/event/:id"
+              element={AuthRoute(EditEvent)}
+            />
           {/* <Route path="/user" element={<Dashboard/>}/> */}
           {/* <Route path="/reports" element={<Dashboard/>}/> */}
           {/* <Route path="/time" element={<Dashboard/>}/> */}
@@ -49,12 +55,8 @@ function App() {
           <Route exact path="/" element={AuthRoute(Home)}>
             <Route exact path="/" element={AuthRoute(Dashbard)} />
             <Route exact path="/event" element={AuthRoute(Event)} />
-            <Route exact path="/addevent" element={AuthRoute(AddEvent)} />
-            <Route
-              exact
-              path="/edit/event/:id"
-              element={AuthRoute(EditEvent)}
-            />
+            
+            
             <Route exact path="/users" element={AuthRoute(User)} />
           </Route>
           

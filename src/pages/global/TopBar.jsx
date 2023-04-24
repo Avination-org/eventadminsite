@@ -1,4 +1,4 @@
-import { Box, IconButton, Modal, Popover, Typography, useTheme } from "@mui/material";
+import { Box, IconButton, Popover, Typography, useTheme } from "@mui/material";
 import { useContext, useState } from "react";
 import { ColorModeContext, tokens } from "../../theme";
 import InputBase from "@mui/material/InputBase";
@@ -65,7 +65,7 @@ const Topbar = () => {
             horizontal: "left",
           }}
         >
-          <IconButton onClick={()=>{localStorage.clear(); navigate("/login")}} >
+          <IconButton onClick={()=>{localStorage.clear(); navigate("/login"); window.location.reload()}} >
             <Logout />
             <Typography>Log out</Typography>
         </IconButton>
