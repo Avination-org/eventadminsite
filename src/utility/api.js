@@ -54,6 +54,9 @@ const HttpService = {
     addImage: (data)=> httpClient.post('/add/event/gallery',data, { headers:{
         'Content-Type':'multipart/form-data'
     }}),
+    addGuest: (data)=> httpClient.post('/add/event/guest',data, { headers:{
+        'Content-Type':'multipart/form-data'
+    }}),
     editEvent: (data)=>httpClient.post('/edit/event', data),
     removeImage: (data)=> httpClient.post('/remove/img', data),
     removeEvent: (id)=> httpClient.post(`/remove/event/${id}`),

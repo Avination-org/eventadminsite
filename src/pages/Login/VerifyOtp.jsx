@@ -56,7 +56,7 @@ function VerifyOTP() {
               fullWidth
               id='otp'
               name='otp'
-              
+              color='secondary'
               label='otp'
               type='number'
               value={formik.values.otp}

@@ -63,6 +63,7 @@ function Login() {
           <form onSubmit={formik.handleSubmit}>
             <TextField
               fullWidth
+              color='secondary'
               id='email'
               name='email'
               label='Email'
@@ -75,6 +76,7 @@ function Login() {
             />
             <TextField
               fullWidth
+              color='secondary'
               id='password'
               name='password'
               label='Password'

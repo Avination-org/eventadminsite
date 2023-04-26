@@ -57,6 +57,7 @@ function ForgetPassword() {
             <form onSubmit={formik.handleSubmit} sx={{width:"100%"}} >
               <TextField
                 fullWidth
+                color='secondary'
                 id="email"
                 name="email"
                 label="Email"

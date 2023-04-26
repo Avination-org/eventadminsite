@@ -54,7 +54,7 @@ function Dashboard() {
           justifyContent="center"
         >
           <StatBox
-            title="100"
+            title="300"
             subtitle="Events"
             progress="0.75"
             increase="+14%"
@@ -73,8 +73,8 @@ function Dashboard() {
           justifyContent="center"
         >
           <StatBox
-            title="431,225"
-            subtitle="Sales Obtained"
+            title="100"
+            subtitle="Draft Events"
             progress="0.50"
             increase="+21%"
             icon={
@@ -92,8 +92,8 @@ function Dashboard() {
           justifyContent="center"
         >
           <StatBox
-            title="32,441"
-            subtitle="New Clients"
+            title="24"
+            subtitle="New Users"
             progress="0.30"
             increase="+5%"
             icon={
@@ -111,7 +111,7 @@ function Dashboard() {
           justifyContent="center"
         >
           <StatBox
-            title="1,325,134"
+            title="25,134"
             subtitle="Traffic Received"
             progress="0.80"
             increase="+43%"

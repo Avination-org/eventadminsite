@@ -56,6 +56,7 @@ function ChangePassword() {
           <form onSubmit={formik.handleSubmit}>
             <TextField
               fullWidth
+              color='secondary'
               id='password'
               name='password'
               label='Password'
@@ -68,6 +69,7 @@ function ChangePassword() {
             />
             <TextField
               fullWidth
+              color='secondary'
               id='cnfpassword'
               name='cnfpassword'
               label='Confirm Password'
